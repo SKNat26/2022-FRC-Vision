@@ -4,18 +4,6 @@ import numpy as np
 #accessing camera
 camera = cv.VideoCapture(0)
 
-def nothing(x):
-    pass
-
-cv.namedWindow('Testing')
-cv.createTrackbar('lowerH', 'Testing', 0, 255, nothing)
-cv.createTrackbar('upperH', 'Testing', 0, 255, nothing)
-cv.createTrackbar('lowerS', 'Testing', 0, 255, nothing)
-cv.createTrackbar('upperS', 'Testing', 0, 255, nothing)
-cv.createTrackbar('lowerV', 'Testing', 0, 255, nothing)
-cv.createTrackbar('upperV', 'Testing', 0, 255, nothing)
-
-
 #color detection
 def isYellow(pixels):    
     if pixels > 0:
@@ -54,12 +42,7 @@ while True:
     modify_frame = cv.dilate(modify_frame, None)
     hsv = cv.cvtColor(modify_frame, cv.COLOR_BGR2HSV)
     
-    lowerH = cv.getTrackbarPos('lowerH', 'Testing')
-    upperH = cv.getTrackbarPos('upperH', 'Testing')
-    lowerS = cv.getTrackbarPos('lowerS', 'Testing')
-    upperS = cv.getTrackbarPos('upperS', 'Testing')
-    lowerV = cv.getTrackbarPos('lowerV', 'Testing')
-    upperV = cv.getTrackbarPos('upperV', 'Testing')
+  
     #lower = np.array([100,150,0])
     #upper = np.array([140,255,255])
     lower = np.array([lowerH, lowerS, lowerV])
