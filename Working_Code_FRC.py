@@ -67,7 +67,7 @@ def createRedMask(img):
     #red values
     hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
     
-    lower_red_1 = np.array([125, 109, 94])
+    lower_red_1 = np.array([130, 83, 205])
     upper_red_1 = np.array([255, 255, 255])
     mask_red = cv.inRange(hsv, lower_red_1, upper_red_1)
 
@@ -96,4 +96,3 @@ while True:
     
 camera.release()
 cv.destroyAllWindows()
-
