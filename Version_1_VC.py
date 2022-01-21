@@ -6,7 +6,7 @@ f = open("vision_data.json")
 data = json.load(f)
 
 #Image Path
-camera = cv.VideoCapture(0, cv.CAP_DSHOW)
+camera = cv.VideoCapture(0)
 
 #Distance function
 def getDistance(focal_length, real_width, width_in_frame):
@@ -15,7 +15,7 @@ def getDistance(focal_length, real_width, width_in_frame):
     return distance
     
 #Draw circle if contour is a circle
-def isCircle(contour, color):
+def isCircle(img, contour, color):
     approx = cv.approxPolyDP(contour, 0.01 * cv.arcLength(contour, True), True)
     
     (coord_x, coord_y), radius = cv.minEnclosingCircle(contour)
@@ -25,7 +25,7 @@ def isCircle(contour, color):
     x, y, w, h = cv.boundingRect(contour)
     aspect_ratio = w/h
     
-    if  1.0 >= contour_area / (radius**2 * 3.14) >= .8 and 1.1 >= aspect_ratio >= .8:
+    if  1.0 >= contour_area / (radius**2 * 3.14) >= .7 and 1.1 >= aspect_ratio >= .8 and contour_area > 1000:
         distance = getDistance(390, 24, int(w))
         distance = int(distance)    
         cv.circle(img, center, int(radius), (0, 255, 0), 5)
@@ -65,16 +65,17 @@ while True:
     ret, frame = camera.read()
     
     for contour in getContours(frame, createBlueMask(frame)):
-        isCircle(contour, "blue")
+        isCircle(frame, contour, "blue")
     
         #show windows
-        cv.imshow("Detected Balls", frame)
+    cv.imshow("mask blue", mask_blue)
+    cv.imshow("Detected Balls", frame)
     
         #break loop if key pressed
-        key = cv.waitKey(0)
-        
-        if key == 27:
-            break
+    key = cv.waitKey(1)
+    if key == 27:
+        break
+       
   
 camera.release()  
 cv.destroyAllWindows()
